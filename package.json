@@ -1,0 +1,22 @@
+{
+  "name": "tagengine",
+  "version": "1.0.0",
+  "description": "TagEngine takes an input string, recognizes patterns and scores the results.",
+  "private": true,
+  "scripts": {
+    "build": "webpack --watch --mode production",
+    "build:dev": "webpack --watch --mode development",
+    "start": "webpack-dev-server --mode production",
+    "start:dev": "webpack-dev-server --mode development",
+    "lint": "tslint -c tslint.json 'src/**/*.ts'"
+  },
+  "author": "Adam Sas",
+  "devDependencies": {
+    "ts-loader": "^4.2.0",
+    "tslint": "^5.9.1",
+    "typescript": "^2.8.1",
+    "webpack": "^4.6.0",
+    "webpack-cli": "^2.0.14",
+    "webpack-dev-server": "^3.1.3"
+  }
+}
