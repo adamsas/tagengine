@@ -144,13 +144,17 @@ const swapKeysValues = (object) => {
             const isAfterStreet = suggestion.before().some((s, i, arr) => {
                 return s.pattern.tag === "street" && suggestion.position.from <= s.position.to + 4;
             });
-            const isBeforeState = suggestion.after().some((s, i, arr) => {
-                return s.pattern.tag === "state" && s.position.from <= suggestion.position.to + 4;
+            let isBeforeState = false;
+            const isPopularStateCity = suggestion.after().some((s, i, arr) => {
+                const state = s.pattern.tag === "state" && s.position.from <= suggestion.position.to + 4 && s.text.toLowerCase();
+                const stateKey = (statesReverse[state] || state || '').toLowerCase();
+                isBeforeState = isBeforeState || state ? true : false;
+                return cities[stateKey] && cities[stateKey].indexOf(suggestion.text.toLowerCase()) >= 0;
             });
             const isOverlapState = suggestion.overlap().some((s, i, arr) => {
                 return s.pattern.tag === "state";
             });
-            return isPopularCity && (isAfterStreet || isBeforeState) ? Score.Yup : (isPopularCity || isAfterStreet && isBeforeState) && !isOverlapState ? Score.Prolly : isPopularCity || isBeforeState ? Score.Maybe : Score.Meh;
+            return isPopularCity && isAfterStreet || isPopularStateCity ? Score.Yup : (isPopularCity || isAfterStreet && isBeforeState) && !isOverlapState ? Score.Prolly : isPopularCity || isBeforeState ? Score.Maybe : Score.Meh;
         }),
         new Pattern("State", "state", /\b(Alabama|Alaska|Arizona|Arkansas|California|Colorado|Connecticut|Delaware|Florida|Georgia|Hawaii|Idaho|Illinois|Indiana|Iowa|Kansas|Kentucky|Louisiana|Maine|Maryland|Massachusetts|Michigan|Minnesota|Mississippi|Missouri|Montana|Nebraska|Nevada|New Hampshire|New Jersey|New Mexico|New York|North Carolina|North Dakota|Ohio|Oklahoma|Oregon|Pennsylvania|Rhode Island|South Carolina|South Dakota|Tennessee|Texas|Utah|Vermont|Virginia|Washington|West Virginia|Wisconsin|Wyoming|A[KLRZ]|C[AOT]|D[CE]|FL|GA|HI|I[ADLN]|K[SY]|LA|M[ADEINOST]|N[CDEHJMVY]|O[HKR]|P[AR]|RI|S[CD]|T[NX]|UT|V[AIT]|W[AIVY])\b/gi, (suggestion) => {
             const isOverlapStreet = suggestion.overlap().some((s, i, arr) => {
