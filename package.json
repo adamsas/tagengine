@@ -1,6 +1,6 @@
 {
   "name": "tagengine",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "TagEngine takes an input string, recognizes patterns and scores the results.",
   "private": true,
   "scripts": {

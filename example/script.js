@@ -14,7 +14,7 @@ const joinValues = (array) => {
 const swapKeysValues = (object) => {
     const ret = {};
     for (let o in object) {
-        ret[o] = object[o];
+        ret[object[o]] = o;
     };
     return ret;
 };
